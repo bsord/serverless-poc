@@ -1,9 +1,8 @@
-import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
 import DeleteForever from '@mui/icons-material/DeleteForever';
 import Divider from '@mui/material/Divider';
+import ListItemIcon  from '@mui/material/ListItemIcon';
+import ListItemButton from '@mui/material/ListItemButton';
 
 
 const SingleNote = (props) => {
@@ -11,14 +10,13 @@ const SingleNote = (props) => {
 
   return (
     <>
-      <ListItem>
+      <ListItemButton>
         <ListItemText primary={note.text}  />
-        <ListItemAvatar onClick={()=>{deleteNote(note._id)}}>
-          <Avatar>
+        <ListItemIcon onClick={()=>{deleteNote(note._id)}}>
+
             <DeleteForever />
-          </Avatar>
-        </ListItemAvatar>
-      </ListItem>
+        </ListItemIcon>
+      </ListItemButton>
       <Divider  component="li" />
     </>
   );
