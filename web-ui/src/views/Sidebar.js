@@ -57,36 +57,11 @@ export const Sidebar = () => {
               </ListItemSuffix>
             </ListItem>
           </Link>
-          <Link to={"/notes"} unstable_viewTransition >
-            <ListItem>
-              <ListItemPrefix>
-                <FontAwesomeIcon icon={faGoogle} />
-              </ListItemPrefix>
-              Settings
-            </ListItem>
-          </Link>
-          <Link to={"/notes"} unstable_viewTransition >
-            <ListItem>
-              <ListItemPrefix>
-                <FontAwesomeIcon icon={faGoogle} />
-              </ListItemPrefix>
-              Billing
-            </ListItem>
-          </Link>
-          <Link to={"/notes"} unstable_viewTransition >
-            <ListItem>
-              <ListItemPrefix>
-                <FontAwesomeIcon icon={faGoogle} />
-              </ListItemPrefix>
-              Log Out
-            </ListItem>
-          </Link>
         </List>
       </div>
       
       <div>
         <List>
-          
           <Link to={"/notes"} unstable_viewTransition >
             <ListItem>
               <ListItemPrefix>

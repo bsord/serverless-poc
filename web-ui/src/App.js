@@ -10,8 +10,10 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
+import { Landing, NotFound } from './features/misc';
 
 const { AuthRoutes } = lazyImport(() => import('./features/auth'), 'AuthRoutes');
+
 
 const ProtectedRoute = ({children}) => {
   const {authenticated} = useContext(AuthContext)
@@ -30,12 +32,17 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <Navigate to="/login" replace />,
+    element: <Landing/>,
     errorElement: <ErrorMessage/>
   },
   {
     path: "/auth/*",
     element: <AuthRoutes />,
+    errorElement: <ErrorMessage/>
+  },
+  {
+    path: "*",
+    element: <NotFound/>,
     errorElement: <ErrorMessage/>
   }
 ]);
