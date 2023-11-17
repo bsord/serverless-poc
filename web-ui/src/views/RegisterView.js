@@ -1,0 +1,182 @@
+import * as React from 'react';
+import { useState, useContext } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMicrosoft, faGoogle, faApple } from '@fortawesome/free-brands-svg-icons'
+
+
+import { Link, useNavigate } from "react-router-dom";
+import {
+  Button,
+  Input,
+  Typography,
+  Checkbox
+} from '../components/Elements'
+import {AuthContext} from '../contexts/AuthContext'
+
+const RegisterView = () => {
+
+  const { register } = useContext(AuthContext);
+
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  const navigate = useNavigate();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const data = new FormData(event.currentTarget);
+
+    const registration = ({
+      email: data.get('email'),
+      password: data.get('password'),
+      name: data.get('name')
+    });
+
+    setLoading(true)
+    setError('')
+    register(registration, ({success, message})=>{
+      if(success){
+        setLoading(false)
+        navigate("/notes"); 
+      } else {
+        setError(message)
+        console.log(message)
+      }
+      setLoading(false)
+  })
+  };
+
+  return (
+    <div className='w-full p-4'>
+      <div className='text-center'>
+        <Typography variant="h2" className='mb-4'>
+          Register
+        </Typography>
+        <Typography
+          className="mb-3 font-normal"
+          variant="lead"
+        >
+          Enter your email, name, and password to Sign Up.
+        </Typography>
+      </div>
+      <form onSubmit={handleSubmit} className='mt-8 mb-2 mx-auto w-100 max-w-screen-lg'>
+
+        <div className='flex flex-col gap-2 mb-4'>
+          <Typography
+            variant="h6"
+          >
+            Email Address
+          </Typography>
+          <Input
+            required
+            id="email"
+            placeholder="Email@domain.com"
+            name="email"
+            autoComplete="email"
+            autoFocus
+          />
+        </div>
+
+        <div className='flex flex-col gap-2 mb-4 relative'>
+          <Typography
+            variant="h6"
+          >
+            Display Name
+          </Typography>
+          <Input
+            id="name"
+            placeholder="John Doe"
+            name="name"
+            autoComplete="name"
+          />
+        </div>
+
+        <div className='flex flex-col gap-2 mb-4'>
+          <Typography
+            variant="h6"
+          >
+            Password
+          </Typography>
+          <Input
+            required
+            name="password"
+            placeholder="********"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+          />
+        </div>
+
+        <div className='flex flex-col gap-2 mb-4'>
+          <Checkbox
+            required
+            name="termsandconditions"
+            id="termsandconditions"
+            autoComplete="termsandconditions"
+            title="Terms and conditions are required"
+          >
+            <Typography variant='h6' className='text-gray-700'>I agree to the</Typography>
+            <Link to={"/login"} unstable_viewTransition className='underline'>
+               Terms and Conditions
+            </Link>
+          </Checkbox>
+        </div>
+
+        <Button
+          type="submit"
+        >
+          Register
+        </Button>
+        <div className='flex items-center justify-between gap-2 mt-6'>
+          <Checkbox
+            required
+            name="newsletter"
+            id="newsletter"
+            autoComplete="newsletter"
+            title="You can change this setting later"
+          >
+            <Typography variant='h6' className='text-gray-700'>Subscribe me to the newsletter</Typography>
+          </Checkbox>
+          <Link to={"/login"} unstable_viewTransition className='underline'>
+            Forgot Password
+          </Link>
+        </div>
+        
+        {error && <span>{error} </span>}
+        {loading && <div>loading...</div>}
+
+
+        <div className='flex flex-col gap-2 my-4'>
+          <Button
+            variant='secondary'
+          >
+            <FontAwesomeIcon icon={faGoogle} />Sign Up with Google
+          </Button>
+          <Button
+            variant='secondary'
+          >
+           <FontAwesomeIcon icon={faMicrosoft} /> Sign Up with Microsoft
+          </Button>
+          <Button
+            variant='secondary'
+          >
+            <FontAwesomeIcon icon={faApple} />Sign Up with Appple
+          </Button>
+        </div>
+
+        
+        <div className='text-center mt-6'>
+            <Typography variant='lead' className='text-gray-700'>Already have an account?</Typography>
+            <Link to={"/login"} unstable_viewTransition className='underline'>
+               Sign in
+            </Link>
+
+        </div>
+        
+      </form>
+    </div>
+  );
+}
+
+export default RegisterView

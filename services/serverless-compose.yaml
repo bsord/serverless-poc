@@ -1,0 +1,10 @@
+	
+services:
+ 
+  auth:
+    path: auth
+ 
+  note:
+    path: note
+    dependsOn:
+      - auth

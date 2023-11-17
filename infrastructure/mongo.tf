@@ -18,7 +18,7 @@ resource "mongodbatlas_project" "atlas-project" {
 resource "random_password" "db-user-password" {
   length = 16
   special = true
-  override_special = "_%@"
+  override_special = "!$&*()-_=+[]{}<>?"
 }
 
 resource "mongodbatlas_database_user" "db-user" {
