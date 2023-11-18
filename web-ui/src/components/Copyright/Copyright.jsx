@@ -1,4 +1,4 @@
-import {Typography} from '../Elements/';
+import {Typography} from '../Elements';
 
 export const Copyright = (props) =>  {
     return (

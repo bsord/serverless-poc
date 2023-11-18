@@ -32,7 +32,7 @@ const AddNote = () => {
     
 
     return (
-        <form component="form" onSubmit={(event)=>{handleSubmit(event)}} >
+        <form onSubmit={(event)=>{handleSubmit(event)}} >
             <Input
                 id="note"
                 label="Note"

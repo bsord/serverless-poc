@@ -1,6 +1,6 @@
 
-const { exec } = require("child_process");
-const { SSMClient, GetParameterCommand } = require("@aws-sdk/client-ssm"); // CommonJS import
+import { exec } from "child_process";
+import { SSMClient, GetParameterCommand } from "@aws-sdk/client-ssm"; // CommonJS import
 
 console.log('invalidating cache')
 // get parameter

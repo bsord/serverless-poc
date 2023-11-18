@@ -33,7 +33,7 @@ const NotesListItemEditor = ({note, handleClose}) => {
         })
     }
 
-    const handleDelete = (event) => {
+    const handleDelete = () => {
         setLoading(true)
         deleteNote(note, (success)=>{
             if (success) {
@@ -62,7 +62,7 @@ const NotesListItemEditor = ({note, handleClose}) => {
     }
 
     return (
-        <form component="form" onSubmit={(event)=>{handleSubmit(event)}} noValidate sx={{ mt: 1, mb:2, width: '100%' }} onBlur={(event)=>{handleOnBlur(event)}}>
+        <form onSubmit={(event)=>{handleSubmit(event)}} onBlur={(event)=>{handleOnBlur(event)}}>
             <Input
                 margin="normal"
                 id="note"

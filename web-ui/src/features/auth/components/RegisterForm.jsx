@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { useState, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrosoft, faGoogle, faApple } from '@fortawesome/free-brands-svg-icons'

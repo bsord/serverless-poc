@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrosoft, faGoogle, faApple } from '@fortawesome/free-brands-svg-icons'
 
@@ -108,7 +107,7 @@ export const LoginForm = () => {
 
         
         <div className='text-center mt-6'>
-            <Typography variant='lead' className='text-gray-700'>Don't have an account?</Typography>
+            <Typography variant='lead' className='text-gray-700'>Dont have an account?</Typography>
             <Link to={"/auth/register"} unstable_viewTransition className='underline'>
                Register
             </Link>

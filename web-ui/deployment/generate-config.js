@@ -1,6 +1,5 @@
-const fs = require('fs') 
-
-const { SSMClient, GetParameterCommand } = require("@aws-sdk/client-ssm"); // CommonJS import
+import fs from 'fs'
+import { SSMClient, GetParameterCommand } from "@aws-sdk/client-ssm"; // CommonJS import
 
 // get parameter
 const client = new SSMClient();
