@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import * as NotesService from '../services/NotesService';
+import * as NotesService from '../api/NotesService';
 
 export const NotesContext = React.createContext();
 

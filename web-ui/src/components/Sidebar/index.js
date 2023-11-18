@@ -1,26 +1,24 @@
 import * as React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMicrosoft, faGoogle, faApple } from '@fortawesome/free-brands-svg-icons'
+import { faGoogle} from '@fortawesome/free-brands-svg-icons'
 
 
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import {
-  Button,
-  Input,
   Typography,
   Card,
   List,
   ListItem,
   ListItemPrefix,
   ListItemSuffix
-} from '../components/Elements'
+} from '../Elements'
 
 
 export const Sidebar = () => {
 
 
   return (
-    <Card className="h-screen w-full max-w-[20rem] p-4 shadow-sm bg-white border border-blue-gray-100 justify-between">
+    <Card className="h-screen w-full max-w-[20rem] p-4 shadow-sm bg-white border border-blue-gray-100 justify-between rounded-none">
       <div>
         <div className=" p-2 text-center">
           <Typography variant="h6" color="blue-gray">
@@ -28,7 +26,7 @@ export const Sidebar = () => {
           </Typography>
         </div>
         <List>
-          <Link to={"/dashboard"} unstable_viewTransition >
+          <Link to={"/dashboard"} >
             <ListItem>
               <ListItemPrefix>
                 <FontAwesomeIcon icon={faGoogle} />
@@ -36,7 +34,7 @@ export const Sidebar = () => {
               Dashboard
             </ListItem>
           </Link>
-          <NavLink to={"/notes"} unstable_viewTransition className={({ isActive, isPending }) =>
+          <NavLink to={"/notes"} className={({ isActive, isPending }) =>
             isPending ? "bg-gray-400" : isActive ? "bg-gray-500" : ""
           }>
             <ListItem>
@@ -46,7 +44,7 @@ export const Sidebar = () => {
               Notes
             </ListItem>
           </NavLink>
-          <Link to={"/notifications"} unstable_viewTransition >
+          <Link to={"/notifications"} >
             <ListItem>
               <ListItemPrefix>
                 <FontAwesomeIcon icon={faGoogle} />
@@ -62,7 +60,7 @@ export const Sidebar = () => {
       
       <div>
         <List>
-          <Link to={"/notes"} unstable_viewTransition >
+          <Link to={"/notes"} >
             <ListItem>
               <ListItemPrefix>
                 <FontAwesomeIcon icon={faGoogle} />
@@ -70,7 +68,7 @@ export const Sidebar = () => {
               Settings
             </ListItem>
           </Link>
-          <Link to={"/notes"} unstable_viewTransition >
+          <Link to={"/notes"} >
             <ListItem>
               <ListItemPrefix>
                 <FontAwesomeIcon icon={faGoogle} />

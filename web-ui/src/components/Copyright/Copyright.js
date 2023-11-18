@@ -1,6 +1,6 @@
-import Typography from '@mui/material/Typography';
+import {Typography} from '../Elements/';
 
-const Copyright = (props) =>  {
+export const Copyright = (props) =>  {
     return (
       <Typography variant="body2" color="text.secondary" align="center" {...props}>
         {'Made with ❤️ in '}
@@ -8,6 +8,4 @@ const Copyright = (props) =>  {
         {'.'}
       </Typography>
     );
-  }
-
-export default Copyright
+}

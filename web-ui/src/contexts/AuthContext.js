@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import * as AuthService from '../services/AuthService';
+import * as AuthService from '../features/auth/api/AuthService';
 
 export const AuthContext = React.createContext();
 

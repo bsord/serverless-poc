@@ -1,13 +1,9 @@
 
 import { useState, useContext } from 'react';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import { InputAdornment } from '@mui/material';
-import {IconButton} from '@mui/material';
-import DeleteForever from '@mui/icons-material/DeleteForever';
+import { Input, Button} from '../../../components/Elements';
 
-import { NotesContext } from '../../contexts/NotesContext';
-import LinearIndeterminate from '../LinearProgress';
+import { NotesContext } from '../contexts/NotesContext';
+import { LinearProgress } from '../../../components/Elements';
 
 const NotesListItemEditor = ({note, handleClose}) => {
     const { updateNote, deleteNote } = useContext(NotesContext);
@@ -66,31 +62,24 @@ const NotesListItemEditor = ({note, handleClose}) => {
     }
 
     return (
-        <Box component="form" onSubmit={(event)=>{handleSubmit(event)}} noValidate sx={{ mt: 1, mb:2, width: '100%' }} onBlur={(event)=>{handleOnBlur(event)}}>
-            <TextField
+        <form component="form" onSubmit={(event)=>{handleSubmit(event)}} noValidate sx={{ mt: 1, mb:2, width: '100%' }} onBlur={(event)=>{handleOnBlur(event)}}>
+            <Input
                 margin="normal"
-                fullWidth
                 id="note"
                 label="Note"
                 name="note"
                 autoComplete="note"
                 autoFocus
-                multiline
+                multiline="true"
                 value={_note.text}
                 onKeyDown={(e)=>{handleKeyDown(e)}}
                 onChange={(e)=>{handleTextChange(e)}}
-                InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end" sx={{ mr:1 }}>
-                        <IconButton edge="end" color="primary" onClick={()=>{handleDelete()}}>
-                          <DeleteForever />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
             />
-            {loading && <LinearIndeterminate/>}
-        </Box>
+            <Button onClick={()=>{handleDelete()}}>
+                x
+            </Button>
+            {loading && <LinearProgress/>}
+        </form>
 
     );
 }

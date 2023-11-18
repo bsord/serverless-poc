@@ -1,10 +1,9 @@
 
 import { useState, useContext } from 'react';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
+import { Input } from '../../../components/Elements';
 
-import { NotesContext } from '../../contexts/NotesContext';
-import LinearIndeterminate from '../LinearProgress';
+import { NotesContext } from '../contexts/NotesContext';
+import {LinearProgress} from '../../../components/Elements';
 
 const AddNote = () => {
 
@@ -33,10 +32,8 @@ const AddNote = () => {
     
 
     return (
-        <Box component="form" onSubmit={(event)=>{handleSubmit(event)}} noValidate sx={{ mt: 1, width: '100%', }}>
-            <TextField
-                margin="normal"
-                fullWidth
+        <form component="form" onSubmit={(event)=>{handleSubmit(event)}} >
+            <Input
                 id="note"
                 label="Note"
                 name="note"
@@ -45,8 +42,8 @@ const AddNote = () => {
                 value={text}
                 onChange={(e)=>{handleChange(e)}}
             />
-            {loading && <LinearIndeterminate/>}
-        </Box>
+            {loading && <LinearProgress/>}
+        </form>
     );
 }
 

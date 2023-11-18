@@ -1,10 +1,10 @@
 
-import ErrorMessage from './custom_components/Error';
-import NotesPage from './pages/NotePage';
+
 import { Navigate } from 'react-router-dom';
 import AuthProvider, { AuthContext } from './contexts/AuthContext';
 import { useContext } from 'react';
 import { lazyImport } from './utils/lazyImport';
+import { Error } from './components/Error';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -13,6 +13,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { Landing, NotFound } from './features/misc';
 
 const { AuthRoutes } = lazyImport(() => import('./features/auth'), 'AuthRoutes');
+const { NotesRoutes } = lazyImport(() => import('./features/notes'), 'NotesRoutes');
 
 
 const ProtectedRoute = ({children}) => {
@@ -27,23 +28,23 @@ const ProtectedRoute = ({children}) => {
 const router = createBrowserRouter([
   {
     path: "/notes",
-    element: <ProtectedRoute><NotesPage /></ProtectedRoute>,
-    errorElement: <ErrorMessage/>
+    element: <ProtectedRoute><NotesRoutes /></ProtectedRoute>,
+    errorElement: <Error/>
   },
   {
     path: "/",
     element: <Landing/>,
-    errorElement: <ErrorMessage/>
+    errorElement: <Error/>
   },
   {
     path: "/auth/*",
     element: <AuthRoutes />,
-    errorElement: <ErrorMessage/>
+    errorElement: <Error/>
   },
   {
     path: "*",
     element: <NotFound/>,
-    errorElement: <ErrorMessage/>
+    errorElement: <Error/>
   }
 ]);
 
