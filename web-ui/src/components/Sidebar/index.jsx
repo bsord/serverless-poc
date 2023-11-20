@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle} from '@fortawesome/free-brands-svg-icons'
 
-
+import { useAuthenticatedUser, useLogout } from '../../features/auth';
 import { Link, NavLink } from "react-router-dom";
 import {
   Typography,
@@ -9,12 +9,15 @@ import {
   List,
   ListItem,
   ListItemPrefix,
-  ListItemSuffix
+  ListItemSuffix,
+  Button
 } from '../Elements'
 
 
 export const Sidebar = () => {
 
+  const logout = useLogout()
+  const {data: user} = useAuthenticatedUser()
 
   return (
     <Card className="h-screen w-full max-w-[20rem] p-4 shadow-sm bg-white border border-blue-gray-100 justify-between rounded-none">
@@ -67,14 +70,10 @@ export const Sidebar = () => {
               Settings
             </ListItem>
           </Link>
-          <Link to={"/notes"} >
             <ListItem>
-              <ListItemPrefix>
-                <FontAwesomeIcon icon={faGoogle} />
-              </ListItemPrefix>
-              Log Out
+              {user?.email && user.email}
+              <Button onClick={()=>{logout.mutate()}}>Logout</Button>
             </ListItem>
-          </Link>
         </List>
       </div>
     </Card>

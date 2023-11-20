@@ -1,7 +1,7 @@
-import { useState, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrosoft, faGoogle, faApple } from '@fortawesome/free-brands-svg-icons'
-
+import { useRegister } from '../api/register'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -9,41 +9,28 @@ import {
   Input,
   Typography,
   Checkbox
-} from '../../../components/Elements'
-import {AuthContext} from '../../../contexts/AuthContext'
+} from '@/components/Elements'
 
 export const RegisterForm = () => {
 
-  const { register } = useContext(AuthContext);
-
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
-
+  const register = useRegister()
   const navigate = useNavigate();
 
   const handleSubmit = (event) => {
-    event.preventDefault();
 
+    event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    const registration = ({
+    const registration = {
       email: data.get('email'),
       password: data.get('password'),
       name: data.get('name')
+    };
+
+    register.mutate(registration, {
+      onSuccess: () => navigate('/notes'),
     });
 
-    setLoading(true)
-    setError('')
-    register(registration, ({success, message})=>{
-      if(success){
-        setLoading(false)
-        navigate("/notes"); 
-      } else {
-        setError(message)
-        console.log(message)
-      }
-      setLoading(false)
-  })
   };
 
   return (
@@ -107,7 +94,7 @@ export const RegisterForm = () => {
           />
         </div>
 
-        <div className='flex flex-col gap-2 mb-4'>
+        <div className='flex flex-col gap-4 mb-4'>
           <Checkbox
             required
             name="termsandconditions"
@@ -120,30 +107,33 @@ export const RegisterForm = () => {
                Terms and Conditions
             </Link>
           </Checkbox>
-        </div>
-
-        <Button
-          type="submit"
-        >
-          Register
-        </Button>
-        <div className='flex items-center justify-between gap-2 mt-6'>
           <Checkbox
-            required
             name="newsletter"
             id="newsletter"
             autoComplete="newsletter"
             title="You can change this setting later"
           >
-            <Typography variant='h6' className='text-gray-700'>Subscribe me to the newsletter</Typography>
+            <Typography variant='h6' className='text-gray-700'>Subscribe to the newsletter</Typography>
           </Checkbox>
-          <Link to={"/auth/login"} unstable_viewTransition className='underline'>
-            Forgot Password
-          </Link>
         </div>
+
+        <Button
+          type="submit"
+          disabled={register.isPending}
+        >
+          {register.isPending && <FontAwesomeIcon icon={faSpinner} className='animate-spin'/>}
+          Register
+        </Button>
         
-        {error && <span>{error} </span>}
-        {loading && <div>loading...</div>}
+        {register.error && 
+
+            <Typography variant="paragraph" className="text-red-500  my-4">
+              {register?.error?.response?.data?.message?? "Request failed, please try again later.."}
+            </Typography>
+
+        }
+
+        {register.isPending && <div>loading...</div>}
 
 
         <div className='flex flex-col gap-2 my-4'>

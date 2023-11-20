@@ -58,15 +58,18 @@ module.exports.register = (event, context) => {
 
 module.exports.me = (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false;
+  console.log(event)
   return connectToDatabase()
     .then(() =>
       me(event.requestContext.authorizer.principalId)
     )
-    .then(session => ({
-      statusCode: 200,
-      headers: headers,
-      body: session
-    }))
+    .then(session => {
+      return {
+        statusCode: 200,
+        headers: headers,
+        body: JSON.stringify(session)
+      }
+    })
     .catch(err => {
       console.log(err)
       return {
@@ -79,22 +82,24 @@ module.exports.me = (event, context) => {
 
 // AWS AUTHORIZER FUNCTION THAT RETURNS AN ACCESS POLICY FOR THE API
 module.exports.verify_token = (event, context, callback) => {
-
+  console.log(event)
   // check header or url parameters or post parameters for token
   const token = event.authorizationToken;
 
   if (!token)
-    return callback(null, 'Unauthorized');
+    callback('Unauthorized');
 
   // verifies secret and checks exp
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    if (err)
-      return callback(null, 'Unauthorized');
-
-    // if everything is good, save to request for use in other routes
-    return callback(null, generatePolicy(decoded.id, 'Allow', event.methodArn))
-  });
-
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET)
+    console.log('decoded', decoded)
+    const policy = generatePolicy(decoded.id, 'Allow', event.methodArn)
+    console.log('policy', JSON.stringify(policy))
+    callback(null, policy)
+  } catch (error) {
+    console.log('error', error)
+    callback('Unauthorized')
+  }
 };
 
 /**
@@ -141,7 +146,7 @@ function checkIfInputIsValid(eventBody) {
 
   if (
     !(eventBody.email &&
-      typeof eventBody.name === 'string')
+      validateEmail(eventBody.email))
   ) return Promise.reject(new Error('Email error. Email must have valid characters.'));
 
   return Promise.resolve();
@@ -160,11 +165,11 @@ function register(eventBody) {
     .then(password =>
       User.create({ name: eventBody.name, email: eventBody.email, password: password }) // create the new user
     )
-    .then(user => ({ auth: true, token: signToken(user._id) })); // sign the token and send it back
+    .then(user => ({ auth: true, token: signToken(user._id)})); // sign the token and send it back
 }
 
 function login(eventBody) {
-  return User.findOne({ email: eventBody.email })
+  return User.findOne({ email: eventBody.email }).select('+password')
     .then(user =>
       !user
         ? Promise.reject(new Error('User with that email does not exits.'))
@@ -178,17 +183,29 @@ function comparePassword(eventPassword, userPassword, userId) {
   return bcrypt.compare(eventPassword, userPassword)
     .then(passwordIsValid =>
       !passwordIsValid
-        ? Promise.reject(new Error('The credentials do not match.'))
+        ? Promise.reject(new Error('Invalid email or password'))
         : signToken(userId)
     );
 }
 
 function me(userId) {
-  return User.findById(userId, { password: 0 })
+  console.log(userId)
+  return User.findById(userId)
     .then(user =>
       !user
         ? Promise.reject('No user found.')
         : user
     )
-    .catch(err => Promise.reject(new Error(err)));
+    .catch(err => {
+      console.log(err)
+      return Promise.reject(new Error(err))
+    });
 }
+
+const validateEmail = (email) => {
+  return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+};

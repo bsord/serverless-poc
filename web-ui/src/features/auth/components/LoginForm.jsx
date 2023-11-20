@@ -1,7 +1,8 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrosoft, faGoogle, faApple } from '@fortawesome/free-brands-svg-icons'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
-import { Link} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Button,
   Input,
@@ -9,16 +10,25 @@ import {
   Checkbox
 } from '../../../components/Elements'
 
+import { useLogin } from '../api/login'
+
 export const LoginForm = () => {
+  const login = useLogin()
+  const navigate = useNavigate()
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const credentials = {
       email: data.get('email'),
       password: data.get('password'),
+    };
+    login.mutate(credentials, {
+      onSuccess: () => navigate('/notes'),
     });
+    
   };
+
 
   return (
     <div className='w-full p-4'>
@@ -67,14 +77,8 @@ export const LoginForm = () => {
           />
         </div>
 
-        <Button
-          type="submit"
-        >
-          Sign In
-        </Button>
         <div className='flex items-center justify-between gap-2 mt-6'>
           <Checkbox
-            required
             name="rememberme"
             id="rememberme"
             autoComplete="rememberme"
@@ -87,21 +91,40 @@ export const LoginForm = () => {
           </Link>
         </div>
 
+        <Button
+          type="submit"
+          disabled={login.isPending}
+        >
+          {login.isPending && <FontAwesomeIcon icon={faSpinner} className='animate-spin'/>}
+          Sign In
+        </Button>
+        
+
+        {login.error && 
+
+          <Typography variant="paragraph" className="text-red-500  my-4">
+            {login?.error?.response?.data?.message?? "Request failed, please try again later.."}
+          </Typography>
+
+        }
+
+        
+
         <div className='flex flex-col gap-2 my-4'>
           <Button
             variant='secondary'
           >
-            <FontAwesomeIcon icon={faGoogle} />Sign Up with Google
+            <FontAwesomeIcon icon={faGoogle} /> Sign In with Google
           </Button>
           <Button
             variant='secondary'
           >
-           <FontAwesomeIcon icon={faMicrosoft} /> Sign Up with Microsoft
+           <FontAwesomeIcon icon={faMicrosoft} /> Sign In with Microsoft
           </Button>
           <Button
             variant='secondary'
           >
-            <FontAwesomeIcon icon={faApple} />Sign Up with Appple
+            <FontAwesomeIcon icon={faApple} /> Sign In with Appple
           </Button>
         </div>
 

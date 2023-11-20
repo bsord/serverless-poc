@@ -1,24 +1,21 @@
 
 
 import { Navigate } from 'react-router-dom';
-import AuthProvider, { AuthContext } from './contexts/AuthContext';
-import { useContext } from 'react';
-import { lazyImport } from './utils/lazyImport';
 import { Error } from './components/Error';
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import { HelmetProvider } from 'react-helmet-async';
 import { Landing, NotFound } from './features/misc';
-
-const { AuthRoutes } = lazyImport(() => import('./features/auth'), 'AuthRoutes');
-const { NotesRoutes } = lazyImport(() => import('./features/notes'), 'NotesRoutes');
+import { AppProvider } from './providers/App';
+import { useAuthenticatedUser } from './features/auth/api/getAuthenticatedUser';
+import { AuthRoutes } from './features/auth';
+import { NotesRoutes } from './features/notes';
 
 
 const ProtectedRoute = ({children}) => {
-  const {authenticated} = useContext(AuthContext)
-  if (!authenticated) {
+  const {data: user} = useAuthenticatedUser()
+  if (!user) {
     return <Navigate to="/" replace />;
   }
 
@@ -51,11 +48,9 @@ const router = createBrowserRouter([
 const App = () => {
   console.log('app')
   return (
-    <HelmetProvider>
-      <AuthProvider>
-        <RouterProvider router={router} />
-      </AuthProvider>
-    </HelmetProvider>
+    <AppProvider>
+      <RouterProvider router={router} />
+    </AppProvider>
   );
 }
 
