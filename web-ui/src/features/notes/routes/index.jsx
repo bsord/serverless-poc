@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { Notes} from './Notes';
+import { Notes } from './Notes';
 
 export const NotesRoutes = () => {
   return (

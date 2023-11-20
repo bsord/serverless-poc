@@ -2,7 +2,7 @@ import Axios from 'axios';
 
 import storage from '../utils/storage';
 
-const API_URL = `https://${window.REACT_APP_API_DOMAIN}`
+const API_URL = `https://${window.REACT_APP_API_DOMAIN}`;
 
 function authRequestInterceptor(config) {
   const token = storage.auth.getToken();
@@ -24,7 +24,7 @@ axios.interceptors.response.use(
   },
   (error) => {
     const message = error.response?.data?.message || error.message;
-    console.log(message)
+    console.log(message);
 
     return Promise.reject(error);
   }

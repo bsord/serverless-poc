@@ -8,17 +8,16 @@ const headers = {
 
 // CREATE
 module.exports.add_user = async (event) => {
-
   // get event body
   var body = JSON.parse(event.body)
 
   // connect to database
-  await mongoose.connect();
+  await mongoose.connect()
 
   // insert user to database
   const user = await User.create({
-      email: body?.email,
-      password: ""
+    email: body?.email,
+    password: '',
   })
 
   return {
@@ -29,17 +28,16 @@ module.exports.add_user = async (event) => {
       user: user,
       input: event,
     }),
-  };
-};
+  }
+}
 
 // READ
 module.exports.get_users = async (event) => {
-
   // get event body
   var body = JSON.parse(event.body)
 
   // connect to database
-  await mongoose.connect();
+  await mongoose.connect()
 
   // get all users
   const users = await User.find()
@@ -51,14 +49,13 @@ module.exports.get_users = async (event) => {
       message: null,
       users: users,
     }),
-  };
-};
+  }
+}
 
 module.exports.get_user_by_id = async (event) => {
-
   // get user id from url path
   const user_id = event.pathParameters.user_id
-  await mongoose.connect();
+  await mongoose.connect()
   const user = await User.findById(user_id)
 
   // find user in database
@@ -68,14 +65,13 @@ module.exports.get_user_by_id = async (event) => {
     headers: headers,
     body: JSON.stringify({
       message: `ok`,
-      user: user
+      user: user,
     }),
-  };
-};
+  }
+}
 
 // UPDATE
 module.exports.update_user = async (event) => {
-
   // get user id from url path
   const user_id = event.pathParameters.user_id
 
@@ -83,31 +79,34 @@ module.exports.update_user = async (event) => {
   var body = JSON.parse(event.body)
 
   // connect to database
-  await mongoose.connect();
+  await mongoose.connect()
 
   // update user in database
-  const user = await User.findByIdAndUpdate( user_id, {
-      text: body?.text
-  }, {new: true})
+  const user = await User.findByIdAndUpdate(
+    user_id,
+    {
+      text: body?.text,
+    },
+    { new: true }
+  )
 
   return {
     statusCode: 200,
     headers: headers,
     body: JSON.stringify({
       message: `ok`,
-      user: user
+      user: user,
     }),
-  };
-};
+  }
+}
 
 // DESTROY
 module.exports.delete_user = async (event) => {
-
   // get user id from url path
   const user_id = event.pathParameters.user_id
 
   // connect to database
-  await mongoose.connect();
+  await mongoose.connect()
 
   // update user in database
   const user = await User.findByIdAndDelete(user_id)
@@ -117,7 +116,7 @@ module.exports.delete_user = async (event) => {
     headers: headers,
     body: JSON.stringify({
       message: `ok`,
-      user: user
+      user: user,
     }),
-  };
-};
+  }
+}

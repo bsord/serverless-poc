@@ -1,8 +1,8 @@
-import { ErrorBoundary } from 'react-error-boundary';
-import { HelmetProvider } from 'react-helmet-async';
-import { QueryClientProvider } from '@tanstack/react-query';
-import { queryClient } from '../lib/react-query';
-import { Button } from '../components/Elements';
+import { ErrorBoundary } from 'react-error-boundary'
+import { HelmetProvider } from 'react-helmet-async'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { queryClient } from '../lib/react-query'
+import { Button } from '../components/Elements'
 
 const ErrorFallback = () => {
   return (
@@ -15,17 +15,15 @@ const ErrorFallback = () => {
         Refresh
       </Button>
     </div>
-  );
-};
+  )
+}
 
 export const AppProvider = ({ children }) => {
   return (
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <HelmetProvider>
-          <QueryClientProvider client={queryClient}>
-            {children}
-          </QueryClientProvider>
-        </HelmetProvider>
-      </ErrorBoundary>
-  );
-};
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <HelmetProvider>
+        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      </HelmetProvider>
+    </ErrorBoundary>
+  )
+}

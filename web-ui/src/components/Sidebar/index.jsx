@@ -1,8 +1,8 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle} from '@fortawesome/free-brands-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 
-import { useAuthenticatedUser, useLogout } from '../../features/auth';
-import { Link, NavLink } from "react-router-dom";
+import { useAuthenticatedUser, useLogout } from '../../features/auth'
+import { Link, NavLink } from 'react-router-dom'
 import {
   Typography,
   Card,
@@ -10,14 +10,12 @@ import {
   ListItem,
   ListItemPrefix,
   ListItemSuffix,
-  Button
+  Button,
 } from '../Elements'
 
-
 export const Sidebar = () => {
-
   const logout = useLogout()
-  const {data: user} = useAuthenticatedUser()
+  const { data: user } = useAuthenticatedUser()
 
   return (
     <Card className="h-screen w-full max-w-[20rem] p-4 shadow-sm bg-white border border-blue-gray-100 justify-between rounded-none">
@@ -28,7 +26,7 @@ export const Sidebar = () => {
           </Typography>
         </div>
         <List>
-          <Link to={"/dashboard"} >
+          <Link to={'/dashboard'}>
             <ListItem>
               <ListItemPrefix>
                 <FontAwesomeIcon icon={faGoogle} />
@@ -36,9 +34,12 @@ export const Sidebar = () => {
               Dashboard
             </ListItem>
           </Link>
-          <NavLink to={"/notes"} className={({ isActive, isPending }) =>
-            isPending ? "bg-gray-400" : isActive ? "bg-gray-500" : ""
-          }>
+          <NavLink
+            to={'/notes'}
+            className={({ isActive, isPending }) =>
+              isPending ? 'bg-gray-400' : isActive ? 'bg-gray-500' : ''
+            }
+          >
             <ListItem>
               <ListItemPrefix>
                 <FontAwesomeIcon icon={faGoogle} />
@@ -46,7 +47,7 @@ export const Sidebar = () => {
               Notes
             </ListItem>
           </NavLink>
-          <Link to={"/notifications"} >
+          <Link to={'/notifications'}>
             <ListItem>
               <ListItemPrefix>
                 <FontAwesomeIcon icon={faGoogle} />
@@ -59,10 +60,10 @@ export const Sidebar = () => {
           </Link>
         </List>
       </div>
-      
+
       <div>
         <List>
-          <Link to={"/notes"} >
+          <Link to={'/notes'}>
             <ListItem>
               <ListItemPrefix>
                 <FontAwesomeIcon icon={faGoogle} />
@@ -70,12 +71,18 @@ export const Sidebar = () => {
               Settings
             </ListItem>
           </Link>
-            <ListItem>
-              {user?.email && user.email}
-              <Button onClick={()=>{logout.mutate()}}>Logout</Button>
-            </ListItem>
+          <ListItem>
+            {user?.email && user.email}
+            <Button
+              onClick={() => {
+                logout.mutate()
+              }}
+            >
+              Logout
+            </Button>
+          </ListItem>
         </List>
       </div>
     </Card>
-  );
+  )
 }

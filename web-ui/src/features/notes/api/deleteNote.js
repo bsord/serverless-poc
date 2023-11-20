@@ -11,7 +11,7 @@ export const useDeleteNote = (config) => {
     onMutate: async (deletedNote) => {
       await queryClient.cancelQueries(['notes']);
 
-      const previousNotes = queryClient.getQueryData(['notes']);
+      const previousNotes = queryClient.getQueryData(['notes'])
 
       queryClient.setQueryData(
         ['notes'],

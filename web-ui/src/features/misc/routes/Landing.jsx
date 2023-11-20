@@ -1,6 +1,6 @@
-import { CenteredLayout } from "../../../components/Layouts";
-import { Typography, Button } from "../../../components/Elements";
-import { useNavigate } from "react-router-dom";
+import { CenteredLayout } from '../../../components/Layouts'
+import { Typography, Button } from '../../../components/Elements'
+import { useNavigate } from 'react-router-dom'
 
 export const Landing = () => {
   const navigate = useNavigate()
@@ -8,8 +8,14 @@ export const Landing = () => {
     <CenteredLayout title="Welcome">
       <div className="text-center gap-x-4">
         <Typography variant="h3">Welcome!</Typography>
-        <Button onClick={()=>{navigate('/auth/login')}}>Sign In</Button>
+        <Button
+          onClick={() => {
+            navigate('/auth/login')
+          }}
+        >
+          Sign In
+        </Button>
       </div>
     </CenteredLayout>
-  );
-};
+  )
+}

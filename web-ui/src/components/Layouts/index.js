@@ -1,2 +1,1 @@
-
-export * from "./CenteredLayout"
+export * from './CenteredLayout'

@@ -1,5 +1,5 @@
-import { CenteredLayout } from "../../../components/Layouts";
-import { Typography } from "../../../components/Elements";
+import { CenteredLayout } from '../../../components/Layouts'
+import { Typography } from '../../../components/Elements'
 
 export const NotFound = () => {
   return (
@@ -8,5 +8,5 @@ export const NotFound = () => {
         <Typography variant="h3">404</Typography>
       </div>
     </CenteredLayout>
-  );
-};
+  )
+}
