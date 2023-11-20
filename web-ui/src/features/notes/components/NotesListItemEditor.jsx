@@ -1,27 +1,27 @@
 
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { Input, Button} from '../../../components/Elements';
 
-import { NotesContext } from '../contexts/NotesContext';
 import { LinearProgress } from '../../../components/Elements';
+import { useDeleteNote } from "../api/deleteNote";
+import { useUpdateNote } from '../api/updateNote';
 
 const NotesListItemEditor = ({note, handleClose}) => {
-    const { updateNote, deleteNote } = useContext(NotesContext);
+    const {mutate: deleteNote, isPending: isDeletePending, error: deleteError} = useDeleteNote()
+    const {mutate: updateNote, isPending: isUpdatePending, error: updateError} = useUpdateNote()
+
 
     const [_note, setNote] = useState(note)
-    const [loading, setLoading] = useState(false)
     
     const handleSubmit = (event) => {
         event.preventDefault();
         if(_note.text !== ""){
-            setLoading(true)
-            updateNote(_note, (success)=>{
-                if(success){
-                    setNote(note)
+            updateNote(_note, {
+                onSuccess: () => {
+                    console.log('updated note')
                     handleClose()
-                }
-                setLoading(false)
-            })
+                },
+            });
         }
         
     };
@@ -34,13 +34,12 @@ const NotesListItemEditor = ({note, handleClose}) => {
     }
 
     const handleDelete = () => {
-        setLoading(true)
-        deleteNote(note, (success)=>{
-            if (success) {
+        deleteNote(note._id, {
+            onSuccess: () => {
+                console.log('created note')
                 handleClose()
-            }
-            setLoading(false)
-        })
+            },
+        });
         
     }
     
@@ -78,7 +77,8 @@ const NotesListItemEditor = ({note, handleClose}) => {
             <Button onClick={()=>{handleDelete()}}>
                 x
             </Button>
-            {loading && <LinearProgress/>}
+            {isDeletePending || isUpdatePending && <LinearProgress/>}
+            {deleteError || updateError && <span>failed to delete</span>}
         </form>
 
     );

@@ -24,7 +24,7 @@ const ProtectedRoute = ({children}) => {
 
 const router = createBrowserRouter([
   {
-    path: "/notes",
+    path: "/notes/*",
     element: <ProtectedRoute><NotesRoutes /></ProtectedRoute>,
     errorElement: <Error/>
   },

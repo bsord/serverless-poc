@@ -1,5 +1,6 @@
 import { axios } from '@/lib/axios';
 import { useMutation } from '@tanstack/react-query';
+import { queryClient } from '@/lib/react-query';
 import { getAuthenticatedUser } from './getAuthenticatedUser';
 import storage from '@/utils/storage';
 
@@ -17,13 +18,14 @@ export const loginFn = async (data) => {
   const response = await loginWithEmailAndPassword(data);
   await saveTokenFromResponse(response);
   const user = await getAuthenticatedUser()
+  storage.auth.setAuthenticatedUser(user)
   return user;
 }
 
 export const useLogin = (config) => {
   return useMutation({
     onSuccess: (user) => {
-      storage.auth.setAuthenticatedUser(user)
+      queryClient.setQueryData('authenticated-user', user)
     },
     ...config,
     mutationFn: loginFn,

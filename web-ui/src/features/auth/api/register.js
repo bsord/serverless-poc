@@ -1,5 +1,6 @@
 import { axios } from '@/lib/axios';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import { queryClient } from '@/lib/react-query';
 import { getAuthenticatedUser } from './getAuthenticatedUser';
 import storage from '@/utils/storage';
 
@@ -17,18 +18,15 @@ export const registerFn = async (data) => {
   const response = await registerWithEmailAndPassword(data);
   await saveTokenFromResponse(response);
   const user = await getAuthenticatedUser()
+  storage.auth.setAuthenticatedUser(user)
   return user;
 }
 
 export const useRegister = (config) => {
-  const queryClient = useQueryClient();
   return useMutation({
     onSuccess: (user) => {
-      console.log(user)
-      storage.auth.setAuthenticatedUser(user)
-      queryClient.invalidateQueries('authenticated-user');
+      queryClient.setQueryData('authenticated-user', user)
     },
-    queryKey: ['authenticated-user'],
     ...config,
     mutationFn: registerFn,
   });

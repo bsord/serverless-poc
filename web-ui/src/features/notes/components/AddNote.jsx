@@ -1,27 +1,26 @@
 
-import { useState, useContext } from 'react';
+import { useState} from 'react';
 import { Input } from '../../../components/Elements';
 
-import { NotesContext } from '../contexts/NotesContext';
 import {LinearProgress} from '../../../components/Elements';
+import { useCreateNote } from '../api/createNote';
 
 const AddNote = () => {
-
-    const { addNote } = useContext(NotesContext);
+    const {mutate: createNote, isPending, error } = useCreateNote()
 
     const [text, setText] = useState('')
-    const [loading, setLoading] = useState(false)
     
     const handleSubmit = (event) => {
         event.preventDefault();
         if(text !== ""){
-            setLoading(true)
-            addNote(text, (success)=>{
-                if(success){
+            createNote({
+                text: text
+            }, {
+                onSuccess: () => {
+                    console.log('created note')
                     setText('')
-                }
-                setLoading(false)
-            })
+                },
+            });
         }
         
     };
@@ -42,7 +41,8 @@ const AddNote = () => {
                 value={text}
                 onChange={(e)=>{handleChange(e)}}
             />
-            {loading && <LinearProgress/>}
+            {isPending && <LinearProgress/>}
+            {error && <span>There was an error</span>}
         </form>
     );
 }

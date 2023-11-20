@@ -1,4 +1,5 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import { queryClient } from '@/lib/react-query';
 import storage from '@/utils/storage';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,7 +9,6 @@ export const logoutFn = async () => {
 }
 
 export const useLogout = (config) => {
-  const queryClient = useQueryClient();
   const navigate = useNavigate()
   return useMutation({
     onSuccess: () => {
